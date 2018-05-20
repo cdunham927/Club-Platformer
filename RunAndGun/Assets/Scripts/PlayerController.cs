@@ -4,6 +4,7 @@ using UnityEngine;
 
 [RequireComponent(typeof (Controller2D))]
 public class PlayerController : MonoBehaviour {
+    public static PlayerController instance = null;
 
     public float jumpHeight = 4;
     public float timeToJumpApex = .4f;
@@ -16,11 +17,24 @@ public class PlayerController : MonoBehaviour {
     float moveSpeed = 6;
     Vector3 velocity;
     float velocityXSmoothing;
-    
+
+    public float targetVelocityX = 0;
+
 
     Controller2D controller;
     
 	void Awake () {
+        //singleton behavior for the player
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else if (instance != this)
+        {
+            Destroy(gameObject);
+        }
+        DontDestroyOnLoad(gameObject);
+
         controller = GetComponent<Controller2D>();
 
         gravity = -(2 * jumpHeight) / Mathf.Pow(timeToJumpApex, 2);
@@ -42,7 +56,7 @@ public class PlayerController : MonoBehaviour {
             velocity.y = jumpVelocity;
         }
 
-        float targetVelocityX = input.x * moveSpeed;
+        targetVelocityX = input.x * moveSpeed;
         velocity.x = Mathf.SmoothDamp(velocity.x, targetVelocityX, ref velocityXSmoothing, (controller.collisions.below) ? accelerationTimeGrounded : accelerationTimeAirborne);
         velocity.y += gravity * Time.deltaTime;
         controller.Move(velocity * Time.deltaTime);
