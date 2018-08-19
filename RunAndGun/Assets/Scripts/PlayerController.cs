@@ -1,9 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
-[RequireComponent(typeof (Controller2D))]
-public class PlayerController : MonoBehaviour {
+[RequireComponent(typeof(Controller2D))]
+public class PlayerController : MonoBehaviour
+{
     public static PlayerController instance = null;
 
     public float jumpHeight = 4;
@@ -21,9 +23,17 @@ public class PlayerController : MonoBehaviour {
     public float targetVelocityX = 0;
 
 
+    ///////////////
+    //stats
+    public int curHealth;
+    public int maxHealth = 100;
+    /// /////////////////
+
+
     Controller2D controller;
-    
-	void Awake () {
+
+    void Awake()
+    {
         //singleton behavior for the player
         if (instance == null)
         {
@@ -33,7 +43,6 @@ public class PlayerController : MonoBehaviour {
         {
             Destroy(gameObject);
         }
-        DontDestroyOnLoad(gameObject);
 
         controller = GetComponent<Controller2D>();
 
@@ -41,9 +50,12 @@ public class PlayerController : MonoBehaviour {
         jumpVelocity = Mathf.Abs(gravity) * timeToJumpApex;
 
         print("Gravity: " + gravity + " Jump Velocity: " + jumpVelocity);
-	}
-	
-	void Update () {
+    }
+
+    void Update()
+    {
+        curHealth = maxHealth;
+
         if (controller.collisions.above || controller.collisions.below)
         {
             velocity.y = 0;
@@ -60,5 +72,21 @@ public class PlayerController : MonoBehaviour {
         velocity.x = Mathf.SmoothDamp(velocity.x, targetVelocityX, ref velocityXSmoothing, (controller.collisions.below) ? accelerationTimeGrounded : accelerationTimeAirborne);
         velocity.y += gravity * Time.deltaTime;
         controller.Move(velocity * Time.deltaTime);
+
+
+        if (curHealth > maxHealth)
+        {
+            curHealth = maxHealth;
+        }
+        if (curHealth <= 0)
+        {
+            Die();
+        }
+    }
+
+    void Die()
+    {
+        //Restart
+        SceneManager.LoadScene(0);
     }
 }
