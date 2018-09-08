@@ -247,6 +247,7 @@
     <Compile Include="Assets\Scripts\DamageHandler.cs" />
     <Compile Include="Assets\Scripts\DamageHandlerEnemy.cs" />
     <Compile Include="Assets\Scripts\GameController.cs" />
+    <Compile Include="Assets\Scripts\MainMenu.cs" />
     <Compile Include="Assets\Scripts\MeleeEnemy.cs" />
     <Compile Include="Assets\Scripts\Physics2DController.cs" />
     <Compile Include="Assets\Scripts\PlayerController.cs" />

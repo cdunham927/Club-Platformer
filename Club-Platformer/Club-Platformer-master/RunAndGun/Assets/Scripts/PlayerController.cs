@@ -10,7 +10,7 @@ public class PlayerController : MonoBehaviour {
     public float jumpHeight = 4;
     public float timeToJumpApex = .4f;
     public float accelerationTimeAirborne = .2f;
-    public float accelerationTimeGrounded = .10f;
+    public float accelerationTimeGrounded = .1f;
 
     float jumpVelocity = 8;
     float gravity = -20;
@@ -27,10 +27,10 @@ public class PlayerController : MonoBehaviour {
     public int curHealth;
     public int maxHealth = 100;
         /// /////////////////
-
+        
 
     Controller2D controller;
-
+    
 	void Awake () {
         //singleton behavior for the player
         //if (instance == null)
@@ -97,4 +97,5 @@ public class PlayerController : MonoBehaviour {
         //Restart
         SceneManager.LoadScene(0);
     }
+    
 }
